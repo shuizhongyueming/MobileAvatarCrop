@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>HTML5 Crop Image</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../html5AvatarCrop.css">
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+
+<body>
+  
+  <input type="file" name="file" id="js_ach_post_file">
+  <div id="js_ach" class="ahc-avatar-box">
+    <div id="js_ach_label" class="ahc-label">
+      <canvas id="js_ach_get_image" class="ahc-get-image"></canvas>
+      <div>
+        <canvas id="js_ach_cover_box" class="ahc-cover-box"></canvas>
+        <canvas id="js_ach_edit_pic" class="ahc-edit-pic"></canvas>
+      </div>
+    </div>
+    <div class="ahc-croped-box">
+      <span id="js_ach_show_edit" class="ahc-show-edit"></span>
+      <button id="js_ach_save_button" class="ahc-save-button">确定</button>
+      <span id="js_ach_show_pic" class="ahc-show-pic"><img src=""></span>
+    </div>
+  </div>
+
+<script type="text/javascript" src="../html5AvatarCrop.js"></script>
+<script type="text/javascript">
+  postFile.init();
+</script>
+</body>
+</html>
