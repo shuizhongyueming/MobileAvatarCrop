@@ -6,18 +6,28 @@
 
 ## CSS
 ```
-<link rel="stylesheet" href="./html5AvatarCrop.css">
+<link rel="stylesheet" href="../html5AvatarCrop.css">
 ```
 
 ## JavasCript
+
+No jQuery Version :
 ```
-<script type="text/javascript" src="./html5AvatarCrop.js"></script>
+<script type="text/javascript" src="../html5AvatarCrop.js"></script>
 <script type="text/javascript">
   html5AvatarCrop.init();
 </script>
 ```
 
+jQuery Version :
+```
+<script src="./assets/jquery-2.1.4.js" charset="utf-8"></script>
+<script type="text/javascript" src="../html5AvatarCrop-jQuery.js"></script>
+```
+
 ## HTML
+
+No jQuery Version :
 ```
 <input type="file" name="file" id="js_hac_post_file">
 <div id="js_hac" class="hac-avatar-box">
@@ -34,6 +44,11 @@
     <span id="js_hac_show_pic" class="hac-show-pic"><img src=""></span>
   </div>
 </div>
+```
+
+jQuery Version :
+```
+<input type="file" name="file" id="js_hac_post_file">
 ```
 
 ### About
