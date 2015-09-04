@@ -1,4 +1,4 @@
-var postFile = {
+var html5AvatarCrop = {
 
   /**
    * 初始化函数
@@ -50,7 +50,7 @@ var postFile = {
     oFReader.readAsDataURL(fileList);
 
     oFReader.onload = function (oFREvent) {
-      postFile.paintImage(oFREvent.target.result);
+      html5AvatarCrop.paintImage(oFREvent.target.result);
     };
   },
 
