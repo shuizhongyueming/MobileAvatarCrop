@@ -1,11 +1,11 @@
 
-.ahc-avatar-box{
+.hac-avatar-box{
   width: 100%;
   position: relative;
   display: none;
   margin-top: 5px;
 }
-.ahc-label{
+.hac-label{
   /*border:1px solid #ccc;*/
   background-color:#fff;
   text-align:center;
@@ -14,34 +14,34 @@
   position:relative;
   display: inline-block;
 }
-.ahc-croped-box{
+.hac-croped-box{
   display: inline-block;
   margin-left: 10px;
 }
-.ahc-get-image{
+.hac-get-image{
   position:absolute;
 }
-.ahc-edit-pic{
+.hac-edit-pic{
   position:absolute;
   display:none;
   background:#000;
 }
-.ahc-cover-box{
+.hac-cover-box{
   position: absolute;
   z-index: 9999;
   display:none;
   top:0px;
   left:0px;
 }
-.ahc-show-edit{
+.hac-show-edit{
   margin: 0 auto;
   display: inline-block;
 }
-.ahc-show-pic{
+.hac-show-pic{
   margin:0 auto;
   display:inline-block;
 }
-.ahc-save-button{
+.hac-save-button{
   vertical-align: bottom;
   color: #fff;
   background-color: #0e90d2;

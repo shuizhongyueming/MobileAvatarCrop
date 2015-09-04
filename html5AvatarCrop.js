@@ -5,10 +5,10 @@ var html5AvatarCrop = {
    */
   init: function() {
     var t = this;
-    t.regional = document.getElementById('js_ach_label');
-    t.getImage = document.getElementById('js_ach_get_image');
-    t.editPic = document.getElementById('js_ach_edit_pic');
-    t.editBox = document.getElementById('js_ach_cover_box');
+    t.regional = document.getElementById('js_hac_label');
+    t.getImage = document.getElementById('js_hac_get_image');
+    t.editPic = document.getElementById('js_hac_edit_pic');
+    t.editBox = document.getElementById('js_hac_cover_box');
 
     // t.px t.py分别表示在实时预览区域的背景图片的坐标；
     t.px = 0;     //background image x
@@ -19,10 +19,10 @@ var html5AvatarCrop = {
     t.sy = 15;    //crop area y
     t.sHeight = 150;    //crop area height
     t.sWidth = 150      //crop area width
-    document.getElementById('js_ach_post_file').addEventListener("change", t.handleFiles, false);
+    document.getElementById('js_hac_post_file').addEventListener("change", t.handleFiles, false);
 
     // 在用户点击save按钮的时候，将裁剪出来的图片保存到预览右边的方框内
-    document.getElementById('js_ach_save_button').onclick = function() {
+    document.getElementById('js_hac_save_button').onclick = function() {
       t.editPic.height = t.sHeight;
       t.editPic.width = t.sWidth;
       var ctx = t.editPic.getContext('2d');
@@ -31,7 +31,7 @@ var html5AvatarCrop = {
 
       images.onload = function(){
         ctx.drawImage(images,t.sx, t.sy, t.sHeight, t.sWidth, 0, 0, t.sHeight, t.sWidth);
-        document.getElementById('js_ach_show_pic').getElementsByTagName('img')[0].src = t.editPic.toDataURL();
+        document.getElementById('js_hac_show_pic').getElementsByTagName('img')[0].src = t.editPic.toDataURL();
       }
     }
   },
@@ -41,7 +41,7 @@ var html5AvatarCrop = {
    */
   handleFiles: function() {
 
-    document.getElementById("js_ach").style.display = "block";
+    document.getElementById("js_hac").style.display = "block";
 
     var fileList = this.files[0];
     // 通过new FileReader()来实例化一个FileReader对象oFReader
@@ -108,9 +108,9 @@ var html5AvatarCrop = {
     cover.fillRect (0,0, t.imgWidth, t.imgHeight);
     cover.clearRect(t.sx, t.sy, t.sHeight, t.sWidth);
 
-    document.getElementById('js_ach_show_edit').style.background = 'url(' + t.imgUrl + ')' + -t.sx + 'px ' + -t.sy + 'px no-repeat';
-    document.getElementById('js_ach_show_edit').style.height = t.sHeight + 'px';
-    document.getElementById('js_ach_show_edit').style.width = t.sWidth + 'px';
+    document.getElementById('js_hac_show_edit').style.background = 'url(' + t.imgUrl + ')' + -t.sx + 'px ' + -t.sy + 'px no-repeat';
+    document.getElementById('js_hac_show_edit').style.height = t.sHeight + 'px';
+    document.getElementById('js_hac_show_edit').style.width = t.sWidth + 'px';
   },
 
   /**
@@ -122,7 +122,7 @@ var html5AvatarCrop = {
     var startX = 0;
     var startY = 0;
 
-    document.getElementById('js_ach_cover_box').onmousemove = function(e) {
+    document.getElementById('js_hac_cover_box').onmousemove = function(e) {
       // 获取鼠标距离背景图片的距离
       // e.pageX代表鼠标到浏览器左边缘的距离
       // t.regional.offsetLeft + this.offsetLeft可以计算出图片到浏览器的左边边缘的距离
