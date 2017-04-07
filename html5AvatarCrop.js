@@ -30,7 +30,7 @@ var html5AvatarCrop = {
       images.src = t.imgUrl;
 
       images.onload = function(){
-        ctx.drawImage(images,t.sx, t.sy, t.sHeight, t.sWidth, 0, 0, t.sHeight, t.sWidth);
+        ctx.drawImage(images, t.sx, t.sy, t.sHeight, t.sWidth, 0, 0, t.sHeight, t.sWidth);
         document.getElementById('js_hac_show_pic').getElementsByTagName('img')[0].src = t.editPic.toDataURL();
       }
     }
@@ -125,10 +125,22 @@ var html5AvatarCrop = {
     document.getElementById('js_hac_cover_box').onmousemove = function(e) {
       // 获取鼠标距离背景图片的距离
       // e.pageX代表鼠标到浏览器左边缘的距离
+      // e.pageY代表鼠标到浏览器顶部边缘的距离
       // t.regional.offsetLeft + this.offsetLeft可以计算出图片到浏览器的左边边缘的距离
       var pageX = e.pageX - ( t.regional.offsetLeft + this.offsetLeft );
       var pageY = e.pageY - ( t.regional.offsetTop + this.offsetTop );
-
+console.log('t.regional.offsetTop:'+t.regional.offsetTop);
+console.log(t);
+console.log(this);
+console.log(this.offsetTop);
+console.log('e.pageX:'+e.pageX);
+console.log('pageX:'+pageX);
+console.log('t.sx:'+t.sx);
+console.log('t.sWidth:'+t.sWidth);
+console.log('e.pageY:'+e.pageY);
+console.log('pageY:'+pageY);
+console.log('t.sy:'+t.sy);
+console.log('t.sHeight:'+t.sHeight);
       // 判断鼠标是否在图片的区域内部
       if ( pageX > t.sx && pageX < t.sx + t.sWidth && pageY > t.sy && pageY < t.sy + t.sHeight ) {
         this.style.cursor = 'move';
