@@ -2,7 +2,7 @@
 
 利用`HTML5`的`File API`和`Canvas`实现本地的图片裁剪
 
-![Image](http://images.helloarron.com/html5AvatarCrop.gif)
+![Image](http://image.helloarron.com/html5AvatarCrop.gif)
 
 ## CSS
 ```
