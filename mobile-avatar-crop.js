@@ -51,7 +51,7 @@ function createCropPopHtml(data){
             <div data-role="img-wrap">
                 <div data-role="img-cont">
                     <img src="${data.url}">
-                    <div data-role="cropper">
+                    <div data-role="cropper" style="left: 0px;top: 0px;">
                         <div data-role="scal-top-left"></div>
                         <div data-role="scal-top-right"></div>
                         <div data-role="scal-bottom-left"></div>
@@ -71,24 +71,68 @@ function createCropPopHtml(data){
 }
 
 /**
+ * 创建canvas画布
+ * @param {Number} w 宽度
+ * @param {Number} h 高度
+ * @param {DOM} canvas对象
+ */
+function createCanvas(w, h){
+    let canvas = document.createElement('canvas'),
+        ratio = window.devicePixelRatio;
+    canvas.width = w;
+    canvas.height = h;
+    Object.assign(canvas.style, {
+        // width: w * ratio + 'px', // 使得多分辨率下不糢糊
+        // height: h * ratio + 'px',
+        position: 'absolute',
+        visibility: 'hidden'
+    });
+    document.body.appendChild(canvas);
+    return canvas;
+}
+
+/**
+ * 裁剪图片
+ * @return {DOM} 承载裁剪完图片之后的canvas对象
+ */
+function cropImg({domCropper, domImg}) {
+    const {clientWidth: imgDisplayWidth, naturalWidth: imgNaturalWidth} = domImg;
+    let {clientWidth: cropperWidth, clientHeight: cropperHeight} = domCropper;
+    let {top: cropperTop, left: cropperLeft} = domCropper.style;
+    let ratio = imgNaturalWidth / imgDisplayWidth;
+
+    cropperWidth = cropperWidth * ratio | 0;
+    cropperHeight = cropperHeight * ratio | 0;
+    cropperTop = parseInt(cropperTop) * ratio | 0;
+    cropperLeft = parseInt(cropperLeft) * ratio | 0;
+
+    console.log(imgDisplayWidth, imgNaturalWidth, cropperWidth, cropperHeight, cropperTop, cropperLeft);
+    let canvas = createCanvas(cropperWidth, cropperHeight);
+    let ctx = canvas.getContext('2d');
+    ctx.drawImage(domImg, cropperLeft, cropperTop, cropperWidth, cropperHeight, 0, 0, cropperWidth, cropperHeight);
+
+    return canvas;
+}
+
+/**
  * 初始化裁剪相关事件
  * @param {Object} 相关DOM和状态
  * @param {Function} cb 确定和取消时候的回调
  */
-function initCropperEvent({ domCrop, domCropper, domImgWrap, domImgCont, domBtnOk, domBtnCancel, isImgOut }, cb) {
+function initCropperEvent({ domCrop, domCropper, domImgWrap, domImgCont, domImg, domBtnOk, domBtnCancel, isImgOut }, cb) {
 
     let closePop = () => {
         document.body.removeChild(domCrop);
     };
 
     domBtnOk.addEventListener('click', () => {
+        cb(cropImg({ domCropper, domImg }).toDataURL());
         closePop();
-        cb()
     }, false);
 
     domBtnCancel.addEventListener('click', () => {
-        closePop();
         cb(false);
+        closePop();
     }, false);
 
     let draggie = new Draggabilly(domCropper, {
@@ -162,6 +206,7 @@ function initCropperPop(url, cb){
             domCrop,
             domImgWrap,
             domImgCont,
+            domImg,
             domCropper,
             domBtnOk,
             domBtnCancel,

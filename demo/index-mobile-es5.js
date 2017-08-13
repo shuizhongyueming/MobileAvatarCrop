@@ -76,8 +76,8 @@ var _mobileAvatarCrop2 = _interopRequireDefault(_mobileAvatarCrop);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-(0, _mobileAvatarCrop2.default)(document.getElementById('js_hac_post_file'), function () {
-    // do nothing
+(0, _mobileAvatarCrop2.default)(document.getElementById('js_hac_post_file'), function (dataUrl) {
+    console.log(dataUrl);
 });
 
 /***/ }),
@@ -100,12 +100,6 @@ var _draggabilly2 = _interopRequireDefault(_draggabilly);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 /**
- * 获取图片数据
- *
- * @param {DOM} domInputFile fileInput
- * @returns {Promise} 返回对应的dataUrl
- */
-/**
  * 第一目标是为了满足手机端头像裁剪需求
  *
  * 主要分如下几个功能点：
@@ -117,6 +111,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 3. 图像裁剪
  * 4. 图像上传
  */
+function str2Fragment(str) {
+    var temp = document.createElement('template');
+    temp.innerHTML = str;
+    return temp.content;
+}
+// const Draggabilly = require('draggabilly');
+
+
+function findRole(dom, role) {
+    return dom.querySelectorAll('[data-role="' + role + '"]');
+}
+
+/**
+ * 获取图片数据
+ *
+ * @param {DOM} domInputFile fileInput
+ * @returns {Promise} 返回对应的dataUrl
+ */
 function getImgDataUrl(domInputFile) {
     return new Promise(function (resolve, reject) {
         var fileList = domInputFile.files[0];
@@ -127,32 +139,84 @@ function getImgDataUrl(domInputFile) {
         };
     });
 }
-// const Draggabilly = require('draggabilly');
 
-function str2Fragment(str) {
-    var temp = document.createElement('template');
-    temp.innerHTML = str;
-    return temp.content;
-}
-function findRole(dom, role) {
-    return dom.querySelectorAll('[data-role="' + role + '"]');
-}
-function createHtml(data) {
-    var tpl = '\n        <div id="J-mobile-avatar-crop">\n            <div data-role="img-wrap">\n                <div data-role="img-cont">\n                    <img src="' + data.url + '">\n                    <div data-role="cropper">\n                        <div data-role="scal-top-left"></div>\n                        <div data-role="scal-top-right"></div>\n                        <div data-role="scal-bottom-left"></div>\n                        <div data-role="scal-bottom-left"></div>\n                    </div>\n                </div>\n            </div>\n            <div data-role="select">\n                <div data-role="cancel">' + data.txtCancel + '</div>\n                <div data-role="ok">' + data.txtOk + '</div>\n            </div>\n        </div>';
+/**
+ * 构建crop弹窗相关的html结构
+ * @param {Object} data 模板相关数据
+ */
+function createCropPopHtml(data) {
+    var tpl = '\n        <div id="J-mobile-avatar-crop">\n            <div data-role="img-wrap">\n                <div data-role="img-cont">\n                    <img src="' + data.url + '">\n                    <div data-role="cropper" style="left: 0px;top: 0px;">\n                        <div data-role="scal-top-left"></div>\n                        <div data-role="scal-top-right"></div>\n                        <div data-role="scal-bottom-left"></div>\n                        <div data-role="scal-bottom-left"></div>\n                    </div>\n                </div>\n            </div>\n            <div data-role="select">\n                <div data-role="cancel">' + data.txtCancel + '</div>\n                <div data-role="ok">' + data.txtOk + '</div>\n            </div>\n        </div>';
 
     var frag = str2Fragment(tpl);
 
     document.body.appendChild(frag);
 }
 
-function initCropperEvent(_ref, cb) {
-    var domCrop = _ref.domCrop,
-        domCropper = _ref.domCropper,
-        domImgWrap = _ref.domImgWrap,
-        domImgCont = _ref.domImgCont,
-        domBtnOk = _ref.domBtnOk,
-        domBtnCancel = _ref.domBtnCancel,
-        isImgOut = _ref.isImgOut;
+/**
+ * 创建canvas画布
+ * @param {Number} w 宽度
+ * @param {Number} h 高度
+ * @param {DOM} canvas对象
+ */
+function createCanvas(w, h) {
+    var canvas = document.createElement('canvas'),
+        ratio = window.devicePixelRatio;
+    canvas.width = w;
+    canvas.height = h;
+    Object.assign(canvas.style, {
+        // width: w * ratio + 'px', // 使得多分辨率下不糢糊
+        // height: h * ratio + 'px',
+        position: 'absolute',
+        visibility: 'hidden'
+    });
+    document.body.appendChild(canvas);
+    return canvas;
+}
+
+/**
+ * 裁剪图片
+ * @return {DOM} 承载裁剪完图片之后的canvas对象
+ */
+function cropImg(_ref) {
+    var domCropper = _ref.domCropper,
+        domImg = _ref.domImg;
+    var imgDisplayWidth = domImg.clientWidth,
+        imgNaturalWidth = domImg.naturalWidth;
+    var cropperWidth = domCropper.clientWidth,
+        cropperHeight = domCropper.clientHeight;
+    var _domCropper$style = domCropper.style,
+        cropperTop = _domCropper$style.top,
+        cropperLeft = _domCropper$style.left;
+
+    var ratio = imgNaturalWidth / imgDisplayWidth;
+
+    cropperWidth = cropperWidth * ratio | 0;
+    cropperHeight = cropperHeight * ratio | 0;
+    cropperTop = parseInt(cropperTop) * ratio | 0;
+    cropperLeft = parseInt(cropperLeft) * ratio | 0;
+
+    console.log(imgDisplayWidth, imgNaturalWidth, cropperWidth, cropperHeight, cropperTop, cropperLeft);
+    var canvas = createCanvas(cropperWidth, cropperHeight);
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(domImg, cropperLeft, cropperTop, cropperWidth, cropperHeight, 0, 0, cropperWidth, cropperHeight);
+
+    return canvas;
+}
+
+/**
+ * 初始化裁剪相关事件
+ * @param {Object} 相关DOM和状态
+ * @param {Function} cb 确定和取消时候的回调
+ */
+function initCropperEvent(_ref2, cb) {
+    var domCrop = _ref2.domCrop,
+        domCropper = _ref2.domCropper,
+        domImgWrap = _ref2.domImgWrap,
+        domImgCont = _ref2.domImgCont,
+        domImg = _ref2.domImg,
+        domBtnOk = _ref2.domBtnOk,
+        domBtnCancel = _ref2.domBtnCancel,
+        isImgOut = _ref2.isImgOut;
 
 
     var closePop = function closePop() {
@@ -160,18 +224,15 @@ function initCropperEvent(_ref, cb) {
     };
 
     domBtnOk.addEventListener('click', function () {
+        cb(cropImg({ domCropper: domCropper, domImg: domImg }).toDataURL());
         closePop();
-        cb();
     }, false);
 
     domBtnCancel.addEventListener('click', function () {
-        closePop();
         cb(false);
+        closePop();
     }, false);
 
-    // 托拽的时候，如果domImg尺寸超过domImgWrap，则托拽限制在domImgWrap内
-    // 反之，限制在domImgCont内
-    // 这样避免托拽超出
     var draggie = new _draggabilly2.default(domCropper, {
         containment: domImgCont
     });
@@ -210,6 +271,11 @@ function fixImgAlign(domImgWrap, domImg) {
     });
 }
 
+/**
+ * 初始化crop弹窗
+ * @param {String} url 图片的dataUrl值
+ * @param {Function} cb 确定和取消时候的回调
+ */
 function initCropperPop(url, cb) {
     var templateData = {
         url: url,
@@ -223,7 +289,7 @@ function initCropperPop(url, cb) {
         height: 100
     };
 
-    createHtml(templateData);
+    createCropPopHtml(templateData);
 
     var domCrop = document.getElementById('J-mobile-avatar-crop'),
         domImgWrap = findRole(domCrop, 'img-wrap')[0],
@@ -238,6 +304,7 @@ function initCropperPop(url, cb) {
             domCrop: domCrop,
             domImgWrap: domImgWrap,
             domImgCont: domImgCont,
+            domImg: domImg,
             domCropper: domCropper,
             domBtnOk: domBtnOk,
             domBtnCancel: domBtnCancel,
@@ -246,6 +313,11 @@ function initCropperPop(url, cb) {
     });
 }
 
+/**
+ * 头像裁剪器的入口文件
+ * @param {DOM} domInputFile 上传文件的入口
+ * @param {Function} cb 确定和取消时候的回调
+ */
 function mobileAvatarCroper(domInputFile, cb) {
     domInputFile.addEventListener('change', function () {
         getImgDataUrl(domInputFile).then(function (dataUrl) {
@@ -297,7 +369,7 @@ exports = module.exports = __webpack_require__(4)(undefined);
 
 
 // module
-exports.push([module.i, "#J-mobile-avatar-crop {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: #000;\n  z-index: 1000;\n  display: flex;\n  flex-direction: column;\n}\n#J-mobile-avatar-crop div[data-role=\"cropper\"] {\n  position: absolute;\n  z-index: 1;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] {\n  flex-grow: 1;\n  flex-shrink: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  overflow: scroll;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"].full {\n  align-items: flex-start;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] div[data-role=\"img-cont\"] {\n  position: relative;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] div[data-role=\"cropper\"] {\n  border: 1px solid #fff;\n  background: transparent;\n  width: 100px;\n  height: 100px;\n  top: 0;\n  left: 0;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] img {\n  width: 100%;\n  display: block;\n  flex: 100% 0 0;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] {\n  flex-grow: 0;\n  flex-shrink: 0;\n  height: 50px;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] div {\n  font-size: 16px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex: 49% 0 0;\n  background: #ffc107;\n  color: #fff;\n}\n", ""]);
+exports.push([module.i, "#J-mobile-avatar-crop {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: #000;\n  z-index: 1000;\n  display: flex;\n  flex-direction: column;\n}\n#J-mobile-avatar-crop div[data-role=\"cropper\"] {\n  position: absolute;\n  z-index: 1;\n  box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px 999em;\n  border: 1px solid #fff;\n  background: transparent;\n  width: 100px;\n  height: 100px;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] {\n  flex-grow: 1;\n  flex-shrink: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  overflow: scroll;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"].full {\n  align-items: flex-start;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] div[data-role=\"img-cont\"] {\n  position: relative;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] img {\n  width: 100%;\n  display: block;\n  flex: 100% 0 0;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] {\n  flex-grow: 0;\n  flex-shrink: 0;\n  height: 50px;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] div {\n  font-size: 16px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex: 49% 0 0;\n  background: #ffc107;\n  color: #fff;\n}\n", ""]);
 
 // exports
 

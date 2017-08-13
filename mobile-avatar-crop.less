@@ -12,6 +12,11 @@
     div[data-role="cropper"] {
         position: absolute;
         z-index: 1;
+        box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px 999em;
+        border: 1px solid #fff;
+        background: transparent;
+        width: 100px;
+        height: 100px;
     }
 
     div[data-role="img-wrap"] {
@@ -27,14 +32,6 @@
         }
         div[data-role="img-cont"] {
             position: relative;
-        }
-        div[data-role="cropper"] {
-            border: 1px solid #fff;
-            background: transparent;
-            width: 100px;
-            height: 100px;
-            top: 0;
-            left: 0;
         }
         img {
             width: 100%;
