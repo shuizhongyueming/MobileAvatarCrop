@@ -1,10 +1,9 @@
 {
-  "name": "html5AvatarCrop",
+  "name": "mobile-avatar-crop",
   "version": "1.0.0",
-  "description": "利用`HTML5`的`File API`和`Canvas`实现本地的图片裁剪",
-  "main": "html5AvatarCrop.js",
+  "description": "面向移动端的，利用`HTML5`的`File API`和`Canvas`实现本地的图片裁剪",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --config webpack.test.js --watch",
     "pub": "webpack --config webpack.config.js -p"
   },

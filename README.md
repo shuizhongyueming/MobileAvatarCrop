@@ -1,58 +1,19 @@
-## html5AvatarCrop
+## MobileAvatarCrop
 
-利用`HTML5`的`File API`和`Canvas`实现本地的图片裁剪
+面向移动端的，利用`HTML5`的`File API`和`Canvas`实现本地的图片裁剪
 
-![Image](http://image.helloarron.com/html5AvatarCrop.gif)
+项目灵感来自于: [ArronYR/html5AvatarCrop](https://github.com/ArronYR/html5AvatarCrop)
 
-## CSS
-```
-<link rel="stylesheet" href="../html5AvatarCrop.css">
-```
+![Image](http://ogm3yb1rm.bkt.clouddn.com/ipic/czyc5.jpg)
 
-## JavasCript
+## 引用方式
 
-No jQuery Version :
-```
-<script type="text/javascript" src="../html5AvatarCrop.js"></script>
-<script type="text/javascript">
-  html5AvatarCrop.init();
-</script>
-```
+本项目是基于`webpack`+`babel`+`ES2015`编写，如果你的项目已经是基于此开发，那么请使用`mobile-avatar-crop.js`
 
-jQuery Version :
-```
-<script src="./assets/jquery-2.1.4.js" charset="utf-8"></script>
-<script type="text/javascript" src="../html5AvatarCrop-jQuery.js"></script>
-```
+如果不是，可以直接使用`dist/index.js`
 
-## HTML
+具体的使用方式，可以参看`demo`
 
-No jQuery Version :
-```
-<input type="file" name="file" id="js_hac_post_file">
-<div id="js_hac" class="hac-avatar-box">
-  <div id="js_hac_label" class="hac-label">
-    <canvas id="js_hac_get_image" class="hac-get-image"></canvas>
-    <div>
-      <canvas id="js_hac_cover_box" class="hac-cover-box"></canvas>
-      <canvas id="js_hac_edit_pic" class="hac-edit-pic"></canvas>
-    </div>
-  </div>
-  <div class="hac-croped-box">
-    <span id="js_hac_show_edit" class="hac-show-edit"></span>
-    <button id="js_hac_save_button" class="hac-save-button">确定</button>
-    <span id="js_hac_show_pic" class="hac-show-pic"><img src=""></span>
-  </div>
-</div>
-```
+### TODO
 
-jQuery Version :
-```
-<input type="file" name="file" id="js_hac_post_file">
-```
-
-### About
-
-个人首页：[http://helloarron.com](http://helloarron.com)
-
-个人博客：[http://blog.helloarron.com ](http://blog.helloarron.com )
++ 选择框缩放
