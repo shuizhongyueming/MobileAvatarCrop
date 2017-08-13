@@ -17,3 +17,4 @@
 ### TODO
 
 + 选择框缩放
++ 清理依赖，尝试使用peerDependencies
