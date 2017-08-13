@@ -14,6 +14,16 @@ import './mobile-avatar-crop.less';
 // const Draggabilly = require('draggabilly');
 import Draggabilly from 'draggabilly';
 
+function str2Fragment(str) {
+    var temp = document.createElement('template');
+    temp.innerHTML = str;
+    return temp.content;
+}
+
+function findRole(dom, role){
+    return dom.querySelectorAll('[data-role="'+role+'"]');
+}
+
 /**
  * 获取图片数据
  *
@@ -30,15 +40,12 @@ function getImgDataUrl(domInputFile){
         };
     });
 }
-function str2Fragment(str) {
-    var temp = document.createElement('template');
-    temp.innerHTML = str;
-    return temp.content;
-}
-function findRole(dom, role){
-    return dom.querySelectorAll('[data-role="'+role+'"]');
-}
-function createHtml(data){
+
+/**
+ * 构建crop弹窗相关的html结构
+ * @param {Object} data 模板相关数据
+ */
+function createCropPopHtml(data){
     let tpl = `
         <div id="J-mobile-avatar-crop">
             <div data-role="img-wrap">
@@ -63,6 +70,11 @@ function createHtml(data){
     document.body.appendChild(frag);
 }
 
+/**
+ * 初始化裁剪相关事件
+ * @param {Object} 相关DOM和状态
+ * @param {Function} cb 确定和取消时候的回调
+ */
 function initCropperEvent({ domCrop, domCropper, domImgWrap, domImgCont, domBtnOk, domBtnCancel, isImgOut }, cb) {
 
     let closePop = () => {
@@ -79,12 +91,9 @@ function initCropperEvent({ domCrop, domCropper, domImgWrap, domImgCont, domBtnO
         cb(false);
     }, false);
 
-    // 托拽的时候，如果domImg尺寸超过domImgWrap，则托拽限制在domImgWrap内
-    // 反之，限制在domImgCont内
-    // 这样避免托拽超出
     let draggie = new Draggabilly(domCropper, {
         containment: domImgCont 
-    })
+    });
 }
 
 /**
@@ -120,6 +129,11 @@ function fixImgAlign(domImgWrap, domImg) {
     });
 }
 
+/**
+ * 初始化crop弹窗
+ * @param {String} url 图片的dataUrl值
+ * @param {Function} cb 确定和取消时候的回调
+ */
 function initCropperPop(url, cb){
     const templateData = {
         url: url,
@@ -133,7 +147,7 @@ function initCropperPop(url, cb){
         height: 100
     };
 
-    createHtml(templateData);
+    createCropPopHtml(templateData);
 
     let domCrop = document.getElementById('J-mobile-avatar-crop'),
         domImgWrap = findRole(domCrop, 'img-wrap')[0],
@@ -154,10 +168,13 @@ function initCropperPop(url, cb){
             isImgOut
         }, cb);
     });
-
-
 }
 
+/**
+ * 头像裁剪器的入口文件
+ * @param {DOM} domInputFile 上传文件的入口
+ * @param {Function} cb 确定和取消时候的回调
+ */
 function mobileAvatarCroper(domInputFile, cb) {
     domInputFile.addEventListener('change', () => {
         getImgDataUrl(domInputFile).then((dataUrl) => {
