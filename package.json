@@ -9,15 +9,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shuizhongyueming/html5AvatarCrop.git"
+    "url": "git+https://github.com/shuizhongyueming/MobileAvatarCrop.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shuizhongyueming/html5AvatarCrop/issues"
+    "url": "https://github.com/shuizhongyueming/MobileAvatarCrop/issues"
   },
-  "homepage": "https://github.com/shuizhongyueming/html5AvatarCrop#readme",
+  "homepage": "https://github.com/shuizhongyueming/MobileAvatarCrop#readme",
   "babel": {
     "presets": [
       "es2015"
