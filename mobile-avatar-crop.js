@@ -215,7 +215,7 @@ function initCropperPop(url, cb, {size = defaultCropperSize} = {}){
  * @param {DOM} domInputFile 上传文件的入口
  * @param {Function} cb 确定和取消时候的回调
  */
-function mobileAvatarCroper(domInputFile, cb, {size = defaultCropperSize} = {}) {
+function mobileAvatarCrop(domInputFile, cb, {size = defaultCropperSize} = {}) {
     domInputFile.addEventListener('change', () => {
         getImgDataUrl(domInputFile).then((dataUrl) => {
             initCropperPop(dataUrl, cb, {
@@ -225,5 +225,5 @@ function mobileAvatarCroper(domInputFile, cb, {size = defaultCropperSize} = {}) 
         })
     }, false);
 }
-window.mobileAvatarCroper = mobileAvatarCroper;
+window.mobileAvatarCrop = mobileAvatarCrop;
 export default mobileAvatarCroper;
