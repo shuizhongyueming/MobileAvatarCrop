@@ -1,0 +1,65 @@
+#J-mobile-avatar-crop {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: #000;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+
+    div[data-role="cropper"] {
+        position: absolute;
+        z-index: 1;
+    }
+
+    div[data-role="img-wrap"] {
+        flex-grow: 1;
+        flex-shrink: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        overflow: scroll;
+        // 针对大尺寸图片，不居中
+        &.full {
+            align-items: flex-start;
+        }
+        div[data-role="img-cont"] {
+            position: relative;
+        }
+        div[data-role="cropper"] {
+            border: 1px solid #fff;
+            background: transparent;
+            width: 100px;
+            height: 100px;
+            top: 0;
+            left: 0;
+        }
+        img {
+            width: 100%;
+            display: block;
+            flex: 100% 0 0;
+        }
+    }
+
+    div[data-role="select"] {
+        flex-grow: 0;
+        flex-shrink: 0;
+        height: 50px;
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: space-between;
+        div {
+            font-size: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 49% 0 0;
+            background: #ffc107;
+            color: #fff;
+        }
+    }
+}
+
