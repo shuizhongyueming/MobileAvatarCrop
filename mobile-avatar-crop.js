@@ -225,5 +225,5 @@ function mobileAvatarCroper(domInputFile, cb, {size = defaultCropperSize} = {}) 
         })
     }, false);
 }
-
+window.mobileAvatarCroper = mobileAvatarCroper;
 export default mobileAvatarCroper;

@@ -314,7 +314,7 @@ function mobileAvatarCroper(domInputFile, cb) {
         });
     }, false);
 }
-
+window.mobileAvatarCroper = mobileAvatarCroper;
 exports.default = mobileAvatarCroper;
 
 /***/ }),
