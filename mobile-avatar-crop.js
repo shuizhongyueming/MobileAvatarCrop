@@ -11,8 +11,8 @@
  * 4. 图像上传
  */
 import './mobile-avatar-crop.less';
-// const Draggabilly = require('draggabilly');
 import Draggabilly from 'draggabilly';
+const defaultCropperSize = 100;
 
 function str2Fragment(str) {
     var temp = document.createElement('template');
@@ -51,7 +51,7 @@ function createCropPopHtml(data){
             <div data-role="img-wrap">
                 <div data-role="img-cont">
                     <img src="${data.url}">
-                    <div data-role="cropper" style="left: 0px;top: 0px;">
+                    <div data-role="cropper" style="left: 0px;top: 0px;width: ${data.size}px;height: ${data.size}px;">
                         <div data-role="scal-top-left"></div>
                         <div data-role="scal-top-right"></div>
                         <div data-role="scal-bottom-left"></div>
@@ -178,17 +178,12 @@ function fixImgAlign(domImgWrap, domImg) {
  * @param {String} url 图片的dataUrl值
  * @param {Function} cb 确定和取消时候的回调
  */
-function initCropperPop(url, cb){
+function initCropperPop(url, cb, {size = defaultCropperSize} = {}){
     const templateData = {
         url: url,
         txtCancel: '取消',
-        txtOk: '确认'
-    };
-    const cropData = {
-        top: 0,
-        left: 0,
-        width: 100,
-        height: 100
+        txtOk: '确认',
+        size,
     };
 
     createCropPopHtml(templateData);
@@ -220,10 +215,12 @@ function initCropperPop(url, cb){
  * @param {DOM} domInputFile 上传文件的入口
  * @param {Function} cb 确定和取消时候的回调
  */
-function mobileAvatarCroper(domInputFile, cb) {
+function mobileAvatarCroper(domInputFile, cb, {size = defaultCropperSize} = {}) {
     domInputFile.addEventListener('change', () => {
         getImgDataUrl(domInputFile).then((dataUrl) => {
-            initCropperPop(dataUrl, cb);
+            initCropperPop(dataUrl, cb, {
+                size
+            });
             domInputFile.value = ""; // 清空
         })
     }, false);

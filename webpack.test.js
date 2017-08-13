@@ -1,10 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
 module.exports = {
-    entry: './demo/index-mobile.js',
+    entry: {
+        'test-normal': './demo/test-normal.js',
+        'test-with-size': './demo/test-with-size.js',
+    },
     output: {
-        path: path.join(__dirname, 'demo'),
-        filename: 'index-mobile-es5.js'
+        path: path.join(__dirname, 'demo/dist/'),
+        filename: '[name].js'
     },
     module: {
         rules: [

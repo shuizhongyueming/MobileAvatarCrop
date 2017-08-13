@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -70,30 +70,13 @@
 "use strict";
 
 
-var _mobileAvatarCrop = __webpack_require__(1);
-
-var _mobileAvatarCrop2 = _interopRequireDefault(_mobileAvatarCrop);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-(0, _mobileAvatarCrop2.default)(document.getElementById('js_hac_post_file'), function (dataUrl) {
-    console.log(dataUrl);
-});
-
-/***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-__webpack_require__(2);
+__webpack_require__(1);
 
-var _draggabilly = __webpack_require__(7);
+var _draggabilly = __webpack_require__(6);
 
 var _draggabilly2 = _interopRequireDefault(_draggabilly);
 
@@ -111,13 +94,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * 3. 图像裁剪
  * 4. 图像上传
  */
+var defaultCropperSize = 100;
+
 function str2Fragment(str) {
     var temp = document.createElement('template');
     temp.innerHTML = str;
     return temp.content;
 }
-// const Draggabilly = require('draggabilly');
-
 
 function findRole(dom, role) {
     return dom.querySelectorAll('[data-role="' + role + '"]');
@@ -145,7 +128,7 @@ function getImgDataUrl(domInputFile) {
  * @param {Object} data 模板相关数据
  */
 function createCropPopHtml(data) {
-    var tpl = '\n        <div id="J-mobile-avatar-crop">\n            <div data-role="img-wrap">\n                <div data-role="img-cont">\n                    <img src="' + data.url + '">\n                    <div data-role="cropper" style="left: 0px;top: 0px;">\n                        <div data-role="scal-top-left"></div>\n                        <div data-role="scal-top-right"></div>\n                        <div data-role="scal-bottom-left"></div>\n                        <div data-role="scal-bottom-left"></div>\n                    </div>\n                </div>\n            </div>\n            <div data-role="select">\n                <div data-role="cancel">' + data.txtCancel + '</div>\n                <div data-role="ok">' + data.txtOk + '</div>\n            </div>\n        </div>';
+    var tpl = '\n        <div id="J-mobile-avatar-crop">\n            <div data-role="img-wrap">\n                <div data-role="img-cont">\n                    <img src="' + data.url + '">\n                    <div data-role="cropper" style="left: 0px;top: 0px;width: ' + data.size + 'px;height: ' + data.size + 'px;">\n                        <div data-role="scal-top-left"></div>\n                        <div data-role="scal-top-right"></div>\n                        <div data-role="scal-bottom-left"></div>\n                        <div data-role="scal-bottom-left"></div>\n                    </div>\n                </div>\n            </div>\n            <div data-role="select">\n                <div data-role="cancel">' + data.txtCancel + '</div>\n                <div data-role="ok">' + data.txtOk + '</div>\n            </div>\n        </div>';
 
     var frag = str2Fragment(tpl);
 
@@ -277,16 +260,15 @@ function fixImgAlign(domImgWrap, domImg) {
  * @param {Function} cb 确定和取消时候的回调
  */
 function initCropperPop(url, cb) {
+    var _ref3 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        _ref3$size = _ref3.size,
+        size = _ref3$size === undefined ? defaultCropperSize : _ref3$size;
+
     var templateData = {
         url: url,
         txtCancel: '取消',
-        txtOk: '确认'
-    };
-    var cropData = {
-        top: 0,
-        left: 0,
-        width: 100,
-        height: 100
+        txtOk: '确认',
+        size: size
     };
 
     createCropPopHtml(templateData);
@@ -319,9 +301,15 @@ function initCropperPop(url, cb) {
  * @param {Function} cb 确定和取消时候的回调
  */
 function mobileAvatarCroper(domInputFile, cb) {
+    var _ref4 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
+        _ref4$size = _ref4.size,
+        size = _ref4$size === undefined ? defaultCropperSize : _ref4$size;
+
     domInputFile.addEventListener('change', function () {
         getImgDataUrl(domInputFile).then(function (dataUrl) {
-            initCropperPop(dataUrl, cb);
+            initCropperPop(dataUrl, cb, {
+                size: size
+            });
             domInputFile.value = ""; // 清空
         });
     }, false);
@@ -330,13 +318,13 @@ function mobileAvatarCroper(domInputFile, cb) {
 exports.default = mobileAvatarCroper;
 
 /***/ }),
-/* 2 */
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(3);
+var content = __webpack_require__(2);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -344,7 +332,7 @@ var transform;
 var options = {}
 options.transform = transform
 // add the styles to the DOM
-var update = __webpack_require__(5)(content, options);
+var update = __webpack_require__(4)(content, options);
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -361,21 +349,21 @@ if(false) {
 }
 
 /***/ }),
-/* 3 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(4)(undefined);
+exports = module.exports = __webpack_require__(3)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "#J-mobile-avatar-crop {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: #000;\n  z-index: 1000;\n  display: flex;\n  flex-direction: column;\n}\n#J-mobile-avatar-crop div[data-role=\"cropper\"] {\n  position: absolute;\n  z-index: 1;\n  box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px 999em;\n  border: 1px solid #fff;\n  background: transparent;\n  width: 100px;\n  height: 100px;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] {\n  flex-grow: 1;\n  flex-shrink: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  overflow: scroll;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"].full {\n  align-items: flex-start;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] div[data-role=\"img-cont\"] {\n  position: relative;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] img {\n  width: 100%;\n  display: block;\n  flex: 100% 0 0;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] {\n  flex-grow: 0;\n  flex-shrink: 0;\n  height: 50px;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] div {\n  font-size: 16px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex: 49% 0 0;\n  background: #ffc107;\n  color: #fff;\n}\n", ""]);
+exports.push([module.i, "#J-mobile-avatar-crop {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: #000;\n  z-index: 1000;\n  display: flex;\n  flex-direction: column;\n}\n#J-mobile-avatar-crop div[data-role=\"cropper\"] {\n  position: absolute;\n  z-index: 1;\n  box-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px 999em;\n  border: 1px solid #fff;\n  background: transparent;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] {\n  flex-grow: 1;\n  flex-shrink: 1;\n  display: flex;\n  flex-direction: row;\n  align-items: center;\n  overflow: scroll;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"].full {\n  align-items: flex-start;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] div[data-role=\"img-cont\"] {\n  position: relative;\n}\n#J-mobile-avatar-crop div[data-role=\"img-wrap\"] img {\n  width: 100%;\n  display: block;\n  flex: 100% 0 0;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] {\n  flex-grow: 0;\n  flex-shrink: 0;\n  height: 50px;\n  display: flex;\n  flex-direction: row;\n  align-items: stretch;\n  justify-content: space-between;\n}\n#J-mobile-avatar-crop div[data-role=\"select\"] div {\n  font-size: 16px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  flex: 49% 0 0;\n  background: #ffc107;\n  color: #fff;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 4 */
+/* 3 */
 /***/ (function(module, exports) {
 
 /*
@@ -457,7 +445,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 5 */
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -503,7 +491,7 @@ var singleton = null;
 var	singletonCounter = 0;
 var	stylesInsertedAtTop = [];
 
-var	fixUrls = __webpack_require__(6);
+var	fixUrls = __webpack_require__(5);
 
 module.exports = function(list, options) {
 	if (typeof DEBUG !== "undefined" && DEBUG) {
@@ -816,7 +804,7 @@ function updateLink (link, options, obj) {
 
 
 /***/ }),
-/* 6 */
+/* 5 */
 /***/ (function(module, exports) {
 
 
@@ -911,7 +899,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -929,8 +917,8 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   if ( true ) {
     // AMD
     !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-        __webpack_require__(8),
-        __webpack_require__(9)
+        __webpack_require__(7),
+        __webpack_require__(8)
       ], __WEBPACK_AMD_DEFINE_RESULT__ = function( getSize, Unidragger ) {
         return factory( window, getSize, Unidragger );
       }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
@@ -1393,7 +1381,7 @@ return Draggabilly;
 
 
 /***/ }),
-/* 8 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1609,7 +1597,7 @@ return getSize;
 
 
 /***/ }),
-/* 9 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1627,7 +1615,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   if ( true ) {
     // AMD
     !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-      __webpack_require__(10)
+      __webpack_require__(9)
     ], __WEBPACK_AMD_DEFINE_RESULT__ = function( Unipointer ) {
       return factory( window, Unipointer );
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
@@ -1900,7 +1888,7 @@ return Unidragger;
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -1917,7 +1905,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
   if ( true ) {
     // AMD
     !(__WEBPACK_AMD_DEFINE_ARRAY__ = [
-      __webpack_require__(11)
+      __webpack_require__(10)
     ], __WEBPACK_AMD_DEFINE_RESULT__ = function( EvEmitter ) {
       return factory( window, EvEmitter );
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
@@ -2210,7 +2198,7 @@ return Unipointer;
 
 
 /***/ }),
-/* 11 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -2327,6 +2315,23 @@ return EvEmitter;
 
 }));
 
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _mobileAvatarCrop = __webpack_require__(0);
+
+var _mobileAvatarCrop2 = _interopRequireDefault(_mobileAvatarCrop);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _mobileAvatarCrop2.default)(document.getElementById('js_hac_post_file'), function (dataUrl) {
+    console.log(dataUrl);
+});
 
 /***/ })
 /******/ ]);
