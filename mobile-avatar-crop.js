@@ -226,4 +226,4 @@ function mobileAvatarCrop(domInputFile, cb, {size = defaultCropperSize} = {}) {
     }, false);
 }
 window.mobileAvatarCrop = mobileAvatarCrop;
-export default mobileAvatarCroper;
+export default mobileAvatarCrop;

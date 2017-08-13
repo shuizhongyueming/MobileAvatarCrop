@@ -315,7 +315,7 @@ function mobileAvatarCrop(domInputFile, cb) {
     }, false);
 }
 window.mobileAvatarCrop = mobileAvatarCrop;
-exports.default = mobileAvatarCroper;
+exports.default = mobileAvatarCrop;
 
 /***/ }),
 /* 1 */
