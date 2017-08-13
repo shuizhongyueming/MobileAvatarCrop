@@ -2331,7 +2331,7 @@ var _mobileAvatarCrop2 = _interopRequireDefault(_mobileAvatarCrop);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 (0, _mobileAvatarCrop2.default)(document.getElementById('js_hac_post_file'), function (dataUrl) {
-    console.log(dataUrl);
+    document.getElementById('J-crop-res').src = dataUrl;
 }, { size: 200 });
 
 /***/ })
