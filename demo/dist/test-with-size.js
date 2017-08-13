@@ -300,7 +300,7 @@ function initCropperPop(url, cb) {
  * @param {DOM} domInputFile 上传文件的入口
  * @param {Function} cb 确定和取消时候的回调
  */
-function mobileAvatarCroper(domInputFile, cb) {
+function mobileAvatarCrop(domInputFile, cb) {
     var _ref4 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {},
         _ref4$size = _ref4.size,
         size = _ref4$size === undefined ? defaultCropperSize : _ref4$size;
@@ -314,7 +314,7 @@ function mobileAvatarCroper(domInputFile, cb) {
         });
     }, false);
 }
-window.mobileAvatarCroper = mobileAvatarCroper;
+window.mobileAvatarCrop = mobileAvatarCrop;
 exports.default = mobileAvatarCroper;
 
 /***/ }),
