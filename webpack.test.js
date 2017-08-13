@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 module.exports = {
-    entry: './mobile-avatar-crop.js',
+    entry: './demo/index-mobile.js',
     output: {
-        path: path.join(__dirname, 'dist'),
-        filename: 'index.js'
+        path: path.join(__dirname, 'demo'),
+        filename: 'index-mobile-es5.js'
     },
     module: {
         rules: [

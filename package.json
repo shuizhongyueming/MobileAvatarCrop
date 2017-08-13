@@ -5,8 +5,8 @@
   "main": "html5AvatarCrop.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack",
-    "dev": "webpack --watch"
+    "dev": "webpack --config webpack.test.js --watch",
+    "pub": "webpack --config webpack.config.js -p"
   },
   "repository": {
     "type": "git",
