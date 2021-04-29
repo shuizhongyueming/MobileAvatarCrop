@@ -28,15 +28,17 @@
     "draggabilly": "^2.1.1"
   },
   "devDependencies": {
-    "autoprefixer": "^7.1.2",
-    "babel-core": "^6.25.0",
-    "babel-loader": "^7.1.1",
-    "css-loader": "^0.28.4",
-    "less": "^2.7.2",
-    "less-loader": "^4.0.5",
-    "postcss-loader": "^2.0.6",
-    "style-loader": "^0.18.2",
-    "webpack": "^3.5.3",
+    "@babel/core": "^7.13.16",
+    "autoprefixer": "^10.2.5",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^5.2.4",
+    "less": "^4.1.1",
+    "less-loader": "7.3.0",
+    "postcss": "^8.2.13",
+    "postcss-loader": "4.2.0",
+    "style-loader": "^2.0.0",
+    "webpack": "^5.36.1",
     "y18n": ">=3.2.2"
   }
 }

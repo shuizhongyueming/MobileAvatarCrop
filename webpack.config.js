@@ -8,23 +8,23 @@ module.exports = {
     },
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                loader: 'babel-loader'
-            },
             { 
                 test   : /\.less$/, 
-                loaders : [
+                use : [
                     'style-loader',
-                    'css-loader?importLoaders=1',
+                    {
+                        loader: "css-loader",
+                        options: {
+                            importLoaders: 1
+                        }
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
-                            postcss: function(){
-                                return [
-                                    require('autoprefixer')()
-                                ];
+                            postcssOptions: {
+                                plugins: [
+                                    "autoprefixer"
+                                ]
                             }
                         }
                     },
