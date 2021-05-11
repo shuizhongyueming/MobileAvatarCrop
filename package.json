@@ -35,6 +35,7 @@
     "css-loader": "^5.2.4",
     "less": "^4.1.1",
     "less-loader": "7.3.0",
+    "lodash": "^4.17.21",
     "postcss": "^8.2.13",
     "postcss-loader": "4.2.0",
     "style-loader": "^2.0.0",
